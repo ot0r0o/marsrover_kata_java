@@ -38,7 +38,7 @@ public class CommandExecutorService {
     }
 
     /**
-     * This method initializes all the rovers
+     * This method initializes all the rovers. Deploy of the rovers is made before movements.
      *
      * @param roversData
      */
@@ -105,6 +105,13 @@ public class CommandExecutorService {
         // Check if the rover position is out side of the grid
         if (grid.outSideGrid(x, y)) {
             String error = "Position outside of the grid";
+            log.error(error);
+            throw new IncorrectDataException(error);
+        }
+
+        // Check if the rover position if occupied by another one
+        if(grid.positionOccupied(x, y)){
+            String error = "There are two rovers in the same position";
             log.error(error);
             throw new IncorrectDataException(error);
         }

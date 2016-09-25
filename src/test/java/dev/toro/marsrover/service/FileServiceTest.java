@@ -85,4 +85,9 @@ public class FileServiceTest {
     public void testInputErrorMove(){
         fileService.makeMovementsByFile("src/test/resources/input_incorrect_move.txt");
     }
+
+    @Test(expected = IncorrectDataException.class)
+    public void testInputErrorSamePosition(){
+        fileService.makeMovementsByFile("src/test/resources/input_incorrect_same_position.txt");
+    }
 }
