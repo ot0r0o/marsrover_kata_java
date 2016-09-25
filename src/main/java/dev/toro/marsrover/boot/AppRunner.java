@@ -4,6 +4,7 @@
 package dev.toro.marsrover.boot;
 
 import dev.toro.marsrover.service.FileService;
+import dev.toro.marsrover.service.KeyboardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -18,6 +19,8 @@ public class AppRunner implements ApplicationRunner {
 
     @Autowired
     private FileService fileService;
+    @Autowired
+    private KeyboardService keyboardService;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -30,7 +33,7 @@ public class AppRunner implements ApplicationRunner {
         if (args.containsOption("web")) {
 
         } else if (args.containsOption("keyboard")) {
-
+            keyboardService.makeMovementsByKeyboard();
         } else if (args.containsOption("file")) {
             fileService.makeMovementsByFile(args.getOptionValues("file").get(0));
         } else {
