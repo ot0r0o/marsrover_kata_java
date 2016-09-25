@@ -65,6 +65,8 @@ public class CommandExecutorService {
             // Check that rover data is correct
             checkRoverData(x, y, strings[1]);
 
+            // Mark position on Grid
+            grid.updatePositionOnGrid(0, 0, x, y);
             rovers.add(new Rover(x, y, orientation, strings[1]));
         }
     }
@@ -146,8 +148,8 @@ public class CommandExecutorService {
 
             // If the new movement is outside of the grid or the new grid position is occupied,
             // keep current position
-            if (!checkNewMovement(x, y)) {
-                grid.updatePossitiononGrid(r.getX(), r.getY(), x, y);
+            if (checkNewMovement(x, y)) {
+                grid.updatePositionOnGrid(r.getX(), r.getY(), x, y);
                 r.setX(x);
                 r.setY(y);
             }
@@ -166,6 +168,6 @@ public class CommandExecutorService {
      * @return
      */
     private boolean checkNewMovement(final int x, final int y) {
-        return grid.outSideGrid(x, y) && grid.positionOccupied(x, y);
+        return !grid.outSideGrid(x, y) && !grid.positionOccupied(x, y);
     }
 }

@@ -28,7 +28,7 @@ public class Grid {
      * @return
      */
     public boolean outSideGrid(final int col, final int row) {
-        return (col >= this.col) || (row >= this.row);
+        return (col >= this.col) || (col < 0) || (row >= this.row) || (row < 0);
     }
 
     /**
@@ -50,9 +50,9 @@ public class Grid {
      * @param newCol
      * @param newRow
      */
-    public void updatePossitiononGrid(final int oldCol, final int oldRow,
-                                      final int newCol, final int newRow) {
-        grid[newCol][newRow] = grid[oldCol][oldRow];
+    public void updatePositionOnGrid(final int oldCol, final int oldRow,
+                                     final int newCol, final int newRow) {
+        grid[newCol][newRow] = true;
         grid[oldCol][oldRow] = false;
     }
 }
