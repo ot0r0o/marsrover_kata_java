@@ -12,7 +12,6 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -29,19 +28,21 @@ public class CommandExecutorService {
 
     /**
      * This method initializes a new Grid
+     *
      * @param col
      * @param row
      */
-    public void initGrid(final int col, final int row){
-        log.info(String.format("Init new grid[%s,%s]", col ,row));
+    public void initGrid(final int col, final int row) {
+        log.info(String.format("Init new grid[%s,%s]", col, row));
         grid = new Grid(col, row);
     }
 
     /**
      * This method initializes all the rovers
+     *
      * @param roversData
      */
-    public void initRovers(final List<String[]> roversData) throws IncorrectDataException{
+    public void initRovers(final List<String[]> roversData) throws IncorrectDataException {
 
         rovers = new ArrayList<>();
 
@@ -53,9 +54,9 @@ public class CommandExecutorService {
             OrientationType orientation = null;
 
             // Check that orientation is correct
-            try{
+            try {
                 orientation = OrientationType.valueOf(st.nextToken());
-            }catch(IllegalArgumentException e){
+            } catch (IllegalArgumentException e) {
                 String error = "Illegal orientation on Rover";
                 log.error(error);
                 throw new IncorrectDataException(error);
@@ -70,16 +71,19 @@ public class CommandExecutorService {
 
     /**
      * This method executes the rovers movements stored previously
+     *
      * @return
      */
-    public String executeMovements(){
+    public String executeMovements() {
         StringBuffer sb = new StringBuffer();
 
         // Start the movements one by one rover in the list
         for (Rover rover : rovers) {
-            Arrays.stream(rover.getCommandsToExecute().split("(?!^)")).forEach(move -> {
-                moveRover(rover, MovementType.valueOf(move));
-            });
+            rover.getCommandsToExecute().chars()
+                    .mapToObj(c -> String.valueOf((char) c)) // Get each char  and map in String
+                    .forEach(move -> // Make move
+                            moveRover(rover, MovementType.valueOf(move))
+                    );
             sb.append(rover.toString());
         }
 
@@ -89,19 +93,22 @@ public class CommandExecutorService {
     /**
      * This method checks that all the rover data is correct.
      * Throws {@link IncorrectDataException} on illegal data.
+     *
      * @param x
      * @param y
      * @param moves
      */
     private void checkRoverData(final int x, final int y, final String moves)
-            throws IncorrectDataException{
-        if(grid.outSideGrid(x, y)){
+            throws IncorrectDataException {
+        // Check if the rover position is out side of the grid
+        if (grid.outSideGrid(x, y)) {
             String error = "Position outside of the grid";
             log.error(error);
             throw new IncorrectDataException(error);
         }
 
-        if(!moves.matches("^[LMR]*$")){
+        // With an regex, check if the commands only contains the valid characters L R M
+        if (!moves.matches("^[LMR]*$")) {
             String error = "Moves of a Rover have illegal command";
             log.error(error);
             throw new IncorrectDataException(error);
@@ -110,18 +117,19 @@ public class CommandExecutorService {
 
     /**
      * This method moves the rover to his new position
+     *
      * @param r
      * @param move
      */
-    private void moveRover(final Rover r, final MovementType move){
+    private void moveRover(final Rover r, final MovementType move) {
 
         // If the movement is M, then move one grid based on rovers current direction
         // Otherwise, apply the correct rotation.
-        if(move.equals(MovementType.M)){
+        if (move.equals(MovementType.M)) {
 
             int x = r.getX();
             int y = r.getY();
-            switch (r.getOrientationType()){
+            switch (r.getOrientationType()) {
                 case N:
                     y++;
                     break;
@@ -138,12 +146,12 @@ public class CommandExecutorService {
 
             // If the new movement is outside of the grid or the new grid position is occupied,
             // keep current position
-            if(!checkNewMovement(x, y)){
+            if (!checkNewMovement(x, y)) {
                 grid.updatePossitiononGrid(r.getX(), r.getY(), x, y);
                 r.setX(x);
                 r.setY(y);
             }
-        }else if(move.equals(MovementType.L) || move.equals(MovementType.R)){
+        } else if (move.equals(MovementType.L) || move.equals(MovementType.R)) {
             // Face the rover to his new direction
             r.setOrientationType(
                     r.getOrientationType().newOrientation(move.getValue()));
@@ -152,11 +160,12 @@ public class CommandExecutorService {
 
     /**
      * This method check if the new movement can be performed
+     *
      * @param x
      * @param y
      * @return
      */
-    private boolean checkNewMovement(final int x, final int y){
-        return grid.outSideGrid(x, y) &&  grid.positionOccupied(x, y);
+    private boolean checkNewMovement(final int x, final int y) {
+        return grid.outSideGrid(x, y) && grid.positionOccupied(x, y);
     }
 }
