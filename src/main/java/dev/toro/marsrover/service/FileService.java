@@ -5,6 +5,7 @@ package dev.toro.marsrover.service;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -24,11 +25,15 @@ public class FileService {
     @Autowired
     CommandExecutorService commandExecutorService;
 
+    @Value("${file.output}")
+    private String outputFile;
+
     /**
      * This method starts the rovers movements by input file
+     *
      * @param file
      */
-    public void makeMovementsByFile(final String file){
+    public void makeMovementsByFile(final String file) {
         List<String> data = readInputFile(Paths.get(file));
 
         // As we know, the first line of the file contains the grid size
@@ -37,15 +42,15 @@ public class FileService {
         List<String[]> roversData = new ArrayList<>();
         int i = 0;
 
-        while(i < data.size()){
+        while (i < data.size()) {
             // First line
-            if(i == 0){
+            if (i == 0) {
                 StringTokenizer st = new StringTokenizer(data.get(0));
                 // Init the grid
                 commandExecutorService.initGrid(Integer.parseInt(st.nextToken()),
                         Integer.parseInt(st.nextToken()));
                 i++;
-            }else{
+            } else {
                 String[] roverData = new String[2];
                 roverData[0] = data.get(i++);
                 roverData[1] = data.get(i++);
@@ -59,22 +64,32 @@ public class FileService {
         String results = commandExecutorService.executeMovements();
 
         log.info("Rovers movements results: " + results);
+        writeOutputFile(results, Paths.get(outputFile));
     }
 
     /**
      * This method reads the input file and returns a list of lines with all the
      * needed information to move the rovers over the grid.
+     *
      * @param file
      * @return List of lines, empty lines are cleared
      */
-    private List<String> readInputFile(final Path file){
+    private List<String> readInputFile(final Path file) {
         try {
             return Files.readAllLines(file).stream()
-                    .filter(l -> !l.isEmpty())
+                    .filter(l -> !l.isEmpty()) // Clean empty lines
                     .collect(Collectors.toList());
         } catch (IOException e) {
             log.error("Could not open file", e.getCause());
             return null;
+        }
+    }
+
+    private void writeOutputFile(final String output, final Path file) {
+        try {
+            Files.write(file, output.getBytes());
+        } catch (IOException e) {
+            log.error("Could not write to file", e.getCause());
         }
     }
 }
