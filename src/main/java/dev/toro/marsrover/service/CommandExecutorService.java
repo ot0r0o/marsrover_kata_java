@@ -80,18 +80,23 @@ public class CommandExecutorService {
      * @return
      */
     public String executeMovements() {
+
+        if(rovers == null || rovers.isEmpty()){
+            return "No data loaded";
+        }
+
         StringBuffer sb = new StringBuffer();
 
         // Start the movements one by one rover in the list
         for (Rover rover : rovers) {
-            if(!rover.isError()){
+            if(!rover.isError() && !rover.isMoved()){
                 rover.getCommandsToExecute().chars()
                         .mapToObj(c -> String.valueOf((char) c)) // Get each char  and map in String
                         .forEach(move -> // Make move
                                 moveRover(rover, MovementType.valueOf(move))
                         );
             }
-
+            rover.setMoved(true);
             sb.append(rover.toString());
         }
 

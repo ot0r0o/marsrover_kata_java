@@ -31,7 +31,7 @@ public class AppRunner implements ApplicationRunner {
         }
 
         if (args.containsOption("web")) {
-
+            // DO NOTHING, Web context is already loaded
         } else if (args.containsOption("keyboard")) {
             keyboardService.makeMovementsByKeyboard();
         } else if (args.containsOption("file")) {

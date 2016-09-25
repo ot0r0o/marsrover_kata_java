@@ -17,8 +17,11 @@ public class Rover {
     /* This is the command line to be executed */
     private String commandsToExecute;
 
-    /* This flag is activated when rover receives illegal data */
+    /* This flag is activated when the rover receives illegal data */
     private boolean error;
+
+    /* This flag is activated when the rover has completed the commands */
+    private boolean moved;
 
     public int getX() {
         return x;
@@ -38,6 +41,14 @@ public class Rover {
 
     public boolean isError() {
         return error;
+    }
+
+    public boolean isMoved() {
+        return moved;
+    }
+
+    public void setMoved(boolean moved) {
+        this.moved = moved;
     }
 
     public OrientationType getOrientationType() {
