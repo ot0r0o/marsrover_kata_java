@@ -21,19 +21,19 @@ public class AppRunner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        if(args.getOptionNames().isEmpty()){
+        if (args.getOptionNames().isEmpty()) {
             throw new IllegalArgumentException("Please specify a command: --file, --keyboard or --web");
-        }else if(args.getOptionNames().size() > 1){
+        } else if (args.getOptionNames().size() > 1) {
             throw new IllegalArgumentException("Only one data source at a time");
         }
 
-        if(args.containsOption("web")){
+        if (args.containsOption("web")) {
 
-        }else if(args.containsOption("keyboard")){
+        } else if (args.containsOption("keyboard")) {
 
-        }else if(args.containsOption("file")){
+        } else if (args.containsOption("file")) {
             fileService.makeMovementsByFile(args.getOptionValues("file").get(0));
-        }else{
+        } else {
             throw new IllegalArgumentException("Command not found");
         }
 

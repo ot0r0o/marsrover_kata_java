@@ -9,10 +9,11 @@ public enum OrientationType {
 
     /**
      * This method returns the new orientation based on rovers movements left (-1) and right (1)
+     *
      * @param value
      * @return
      */
-    public OrientationType newOrientation(int value){
+    public OrientationType newOrientation(int value) {
         // Make it circular
         return (ordinal() == 0 && value == -1) ? W :
                 values()[(ordinal() + value) % values().length];

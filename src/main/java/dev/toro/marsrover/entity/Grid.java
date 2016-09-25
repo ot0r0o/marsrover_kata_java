@@ -22,33 +22,36 @@ public class Grid {
 
     /**
      * This method returns if the new position is outside of the Grid
+     *
      * @param col
      * @param row
      * @return
      */
-    public boolean outSideGrid(final int col, final int row){
+    public boolean outSideGrid(final int col, final int row) {
         return (col >= this.col) || (row >= this.row);
     }
 
     /**
      * This method returns if the new position is occupied by another rover
+     *
      * @param col
      * @param row
      * @return
      */
-    public boolean positionOccupied(final int col, final int row){
+    public boolean positionOccupied(final int col, final int row) {
         return grid[col][row];
     }
 
     /**
      * This method updates the position for a rover
+     *
      * @param oldCol
      * @param oldRow
      * @param newCol
      * @param newRow
      */
     public void updatePossitiononGrid(final int oldCol, final int oldRow,
-                                      final int newCol, final int newRow){
+                                      final int newCol, final int newRow) {
         grid[newCol][newRow] = grid[oldCol][oldRow];
         grid[oldCol][oldRow] = false;
     }

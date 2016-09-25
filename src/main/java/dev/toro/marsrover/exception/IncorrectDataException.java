@@ -3,9 +3,10 @@
  */
 package dev.toro.marsrover.exception;
 
-public class IncorrectDataException extends RuntimeException{
+public class IncorrectDataException extends RuntimeException {
 
     private static String MSG = "Inputted data is not correct, please check it";
+
     public IncorrectDataException(final String message) {
         super(MSG + ": " + message);
     }
