@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 public class AppRunner implements ApplicationRunner {
 
     @Autowired
-    FileService fileService;
+    private FileService fileService;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {

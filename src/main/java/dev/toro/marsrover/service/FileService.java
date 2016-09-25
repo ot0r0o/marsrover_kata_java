@@ -23,7 +23,7 @@ public class FileService {
     private Logger log = Logger.getLogger(FileService.class);
 
     @Autowired
-    CommandExecutorService commandExecutorService;
+    private CommandExecutorService commandExecutorService;
 
     @Value("${file.output}")
     private String outputFile;
