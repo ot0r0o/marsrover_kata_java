@@ -8,7 +8,7 @@ import dev.toro.marsrover.entity.MovementType;
 import dev.toro.marsrover.entity.OrientationType;
 import dev.toro.marsrover.entity.Rover;
 import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,7 @@ import java.util.StringTokenizer;
 /**
  * This class initializes the grid and the rovers to perform the moves
  */
-@Component
+@Service
 public class CommandExecutorService {
 
     private Logger log = Logger.getLogger(CommandExecutorService.class);
