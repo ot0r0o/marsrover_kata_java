@@ -1,6 +1,5 @@
 package dev.toro.marsrover;
 
-import dev.toro.marsrover.exception.IncorrectDataException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -8,6 +7,9 @@ import org.mockito.InjectMocks;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 
+/**
+ * This class test the input arguments for the application
+ */
 @RunWith(MockitoJUnitRunner.class)
 @SpringBootTest
 public class MarsRoverApplicationTests {
@@ -54,38 +56,5 @@ public class MarsRoverApplicationTests {
         String[] args = {"--file=src/test/resources/input.txt"};
         app.main(args);
 	}
-
-	@Test
-	public void testInputErrorDirection(){
-        String[] args = {"--file=src/test/resources/input_incorrect_direction.txt"};
-
-        try{
-            app.main(args);
-        }catch(IllegalStateException e){
-            Assert.assertTrue(e.getCause() instanceof IncorrectDataException);
-        }
-    }
-
-    @Test
-    public void testInputErrorPosition(){
-        String[] args = {"--file=src/test/resources/input_incorrect_position.txt"};
-
-        try{
-            app.main(args);
-        }catch(IllegalStateException e){
-            Assert.assertTrue(e.getCause() instanceof IncorrectDataException);
-        }
-    }
-
-    @Test
-    public void testInputErrorMove(){
-        String[] args = {"--file=src/test/resources/input_incorrect_move.txt"};
-
-        try{
-            app.main(args);
-        }catch(IllegalStateException e){
-            Assert.assertTrue(e.getCause() instanceof IncorrectDataException);
-        }
-    }
 
 }
