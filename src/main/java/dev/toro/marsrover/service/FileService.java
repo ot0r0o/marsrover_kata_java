@@ -22,7 +22,7 @@ public class FileService {
     private Logger log = Logger.getLogger(FileService.class);
 
     @Autowired
-    private CommandExecutorService commandExecutorService;
+    CommandExecutorService commandExecutorService;
 
     /**
      * This method starts the rovers movements by input file
@@ -58,7 +58,7 @@ public class FileService {
         // Execute movements and get results
         String results = commandExecutorService.executeMovements();
 
-        log.debug(results);
+        log.info("Rovers movements results: " + results);
     }
 
     /**

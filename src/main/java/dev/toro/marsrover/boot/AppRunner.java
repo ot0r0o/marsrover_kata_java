@@ -4,7 +4,6 @@
 package dev.toro.marsrover.boot;
 
 import dev.toro.marsrover.service.FileService;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -17,10 +16,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class AppRunner implements ApplicationRunner {
 
-    private Logger log = Logger.getLogger(AppRunner.class);
-
     @Autowired
-    private FileService fileService;
+    FileService fileService;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {

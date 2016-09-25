@@ -1,11 +1,9 @@
 package dev.toro.marsrover;
 
-import dev.toro.marsrover.boot.AppRunner;
 import dev.toro.marsrover.exception.IncorrectDataException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runner.Runner;
 import org.mockito.InjectMocks;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;

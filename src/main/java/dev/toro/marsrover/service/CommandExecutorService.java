@@ -3,10 +3,9 @@
  */
 package dev.toro.marsrover.service;
 
-import dev.toro.marsrover.boot.AppRunner;
-import dev.toro.marsrover.entity.OrientationType;
 import dev.toro.marsrover.entity.Grid;
 import dev.toro.marsrover.entity.MovementType;
+import dev.toro.marsrover.entity.OrientationType;
 import dev.toro.marsrover.entity.Rover;
 import dev.toro.marsrover.exception.IncorrectDataException;
 import org.apache.log4j.Logger;
