@@ -7,7 +7,6 @@ import dev.toro.marsrover.entity.Grid;
 import dev.toro.marsrover.entity.MovementType;
 import dev.toro.marsrover.entity.OrientationType;
 import dev.toro.marsrover.entity.Rover;
-import dev.toro.marsrover.exception.IncorrectDataException;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
@@ -42,7 +41,7 @@ public class CommandExecutorService {
      *
      * @param roversData
      */
-    public void initRovers(final List<String[]> roversData) throws IncorrectDataException {
+    public void initRovers(final List<String[]> roversData) {
 
         rovers = new ArrayList<>();
 
@@ -59,11 +58,15 @@ public class CommandExecutorService {
             } catch (IllegalArgumentException e) {
                 String error = "Illegal orientation on Rover";
                 log.error(error);
-                throw new IncorrectDataException(error);
+                rovers.add(new Rover());
+                continue;
             }
 
             // Check that rover data is correct
-            checkRoverData(x, y, strings[1]);
+            if(!checkRoverData(x, y, strings[1])){
+                rovers.add(new Rover());
+                continue;
+            }
 
             // Mark position on Grid
             grid.updatePositionOnGrid(0, 0, x, y);
@@ -81,11 +84,14 @@ public class CommandExecutorService {
 
         // Start the movements one by one rover in the list
         for (Rover rover : rovers) {
-            rover.getCommandsToExecute().chars()
-                    .mapToObj(c -> String.valueOf((char) c)) // Get each char  and map in String
-                    .forEach(move -> // Make move
-                            moveRover(rover, MovementType.valueOf(move))
-                    );
+            if(!rover.isError()){
+                rover.getCommandsToExecute().chars()
+                        .mapToObj(c -> String.valueOf((char) c)) // Get each char  and map in String
+                        .forEach(move -> // Make move
+                                moveRover(rover, MovementType.valueOf(move))
+                        );
+            }
+
             sb.append(rover.toString());
         }
 
@@ -94,34 +100,34 @@ public class CommandExecutorService {
 
     /**
      * This method checks that all the rover data is correct.
-     * Throws {@link IncorrectDataException} on illegal data.
-     *
      * @param x
      * @param y
      * @param moves
+     * @return True when all data is correct. False otherwise
      */
-    private void checkRoverData(final int x, final int y, final String moves)
-            throws IncorrectDataException {
+    private boolean checkRoverData(final int x, final int y, final String moves) {
         // Check if the rover position is out side of the grid
         if (grid.outSideGrid(x, y)) {
             String error = "Position outside of the grid";
             log.error(error);
-            throw new IncorrectDataException(error);
+            return false;
         }
 
         // Check if the rover position if occupied by another one
         if(grid.positionOccupied(x, y)){
             String error = "There are two rovers in the same position";
             log.error(error);
-            throw new IncorrectDataException(error);
+            return false;
         }
 
         // With an regex, check if the commands only contains the valid characters L R M
         if (!moves.matches("^[LMR]*$")) {
             String error = "Moves of a Rover have illegal command";
             log.error(error);
-            throw new IncorrectDataException(error);
+            return false;
         }
+
+        return true;
     }
 
     /**
@@ -135,7 +141,7 @@ public class CommandExecutorService {
         // If the movement is M, then move one grid based on rovers current direction
         // Otherwise, apply the correct rotation.
         if (move.equals(MovementType.M)) {
-
+            // Apply move based on direction
             int x = r.getX();
             int y = r.getY();
             switch (r.getOrientationType()) {

@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
@@ -71,23 +72,39 @@ public class FileServiceTest {
                 .get().contains("1 2 S 1 1 W"));
     }
 
-    @Test(expected = IncorrectDataException.class)
-    public void testInputErrorDirection(){
+    @Test
+    public void testInputErrorDirection() throws Exception {
         fileService.makeMovementsByFile("src/test/resources/input_incorrect_direction.txt");
+        checkErrorOnOutput();
     }
 
-    @Test(expected = IncorrectDataException.class)
-    public void testInputErrorPosition(){
+    @Test
+    public void testInputErrorPosition() throws Exception{
         fileService.makeMovementsByFile("src/test/resources/input_incorrect_position.txt");
+        checkErrorOnOutput();
     }
 
-    @Test(expected = IncorrectDataException.class)
-    public void testInputErrorMove(){
+    @Test
+    public void testInputErrorMove() throws Exception {
         fileService.makeMovementsByFile("src/test/resources/input_incorrect_move.txt");
+        checkErrorOnOutput();
     }
 
-    @Test(expected = IncorrectDataException.class)
-    public void testInputErrorSamePosition(){
+    @Test
+    public void testInputErrorSamePosition()throws Exception {
         fileService.makeMovementsByFile("src/test/resources/input_incorrect_same_position.txt");
+        checkErrorOnOutput();
+    }
+
+    private void checkErrorOnOutput() throws IOException {
+        Path path = Paths.get(outputFile);
+
+        // Check file is correctly written
+        Assert.assertTrue(Files.exists(path));
+
+        // Check that file contains correct solution for input.txt
+        Assert.assertTrue(Files.readAllLines(path).stream()
+                .findFirst()
+                .get().contains("ERROR"));
     }
 }

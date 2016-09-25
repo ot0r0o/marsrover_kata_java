@@ -17,6 +17,9 @@ public class Rover {
     /* This is the command line to be executed */
     private String commandsToExecute;
 
+    /* This flag is activated when rover receives illegal data */
+    private boolean error;
+
     public int getX() {
         return x;
     }
@@ -31,6 +34,10 @@ public class Rover {
 
     public void setY(int y) {
         this.y = y;
+    }
+
+    public boolean isError() {
+        return error;
     }
 
     public OrientationType getOrientationType() {
@@ -56,6 +63,10 @@ public class Rover {
         this.commandsToExecute = commandsToExecute;
     }
 
+    public Rover() {
+        this.error = true;
+    }
+
     /**
      * This method will return the current rover position over the grid
      *
@@ -63,6 +74,9 @@ public class Rover {
      */
     @Override
     public String toString() {
+        if(error){
+            return "ERROR ";
+        }
         return x + " " + y + " " + orientationType.toString() + " ";
     }
 }
