@@ -45,16 +45,16 @@ This implementation offers different modes to reach the final solution:
 
 - **File input**
 On this mode we need to specify an input file wich contains all the needed data to move the rovers over the plateau.
->>$ java -jar marsrover-VERSION.jar --file=FILE_LOCATION
+>$ java -jar marsrover-VERSION.jar --file=FILE_LOCATION
 
 - **Keyboard input**
 On this mode we can specify needed data through keyboard. First the upper-right position of the plateau followed by rovers information (initial position and commands). Follow instructions.
->>$ java -jar marsrover-VERSION.jar --keyboard
+>$ java -jar marsrover-VERSION.jar --keyboard
 
 - **Remote**
 On this solution an embeded Tomcat server is launched. The data is send through a REST end-point. It can be made as follows:
->>$ java -jar marsrover-VERSION.jar --web
->>
->>$ curl -i -H "Content-Type: application/json" -X POST -d '{"grid":"5 5","rovers":[["1 2 N","LMLMLMLMM"],["3 3 E","MMRMMRMRRM"]]}' http://localhost:8080/remote
+>$ java -jar marsrover-VERSION.jar --web
+>
+>$ curl -i -H "Content-Type: application/json" -X POST -d '{"grid":"5 5","rovers":[["1 2 N","LMLMLMLMM"],["3 3 E","MMRMMRMRRM"]]}' http://localhost:8080/remote
 
 
