@@ -22,6 +22,9 @@ public class KeyboardService {
 
     private Scanner scanner;
 
+    /**
+     * This method starts the rovers movements by keyboard input
+     */
     public void makeMovementsByKeyboard(){
         scanner = new Scanner(System.in);
 

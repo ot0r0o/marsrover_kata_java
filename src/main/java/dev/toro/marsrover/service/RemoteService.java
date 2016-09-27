@@ -20,6 +20,11 @@ public class RemoteService {
     @Autowired
     private CommandExecutorService commandExecutorService;
 
+    /**
+     * This method receives the remote data to be processed and executed
+     * @param remote Check {@link RemoteDTO}
+     * @return Final position and direction for each rover
+     */
     public String makeMovementsByRemote(RemoteDTO remote) {
 
         // Init the grid
@@ -38,6 +43,10 @@ public class RemoteService {
         return results;
     }
 
+    /**
+     * This method checks the movements of the rovers
+     * @return Final position and direction for each rover
+     */
     public String check(){
         return commandExecutorService.executeMovements();
     }

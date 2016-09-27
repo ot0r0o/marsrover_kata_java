@@ -31,7 +31,7 @@ public class FileService {
     /**
      * This method starts the rovers movements by input file
      *
-     * @param file
+     * @param file String with the location of the input file
      */
     public void makeMovementsByFile(final String file) {
         List<String> data = readInputFile(Paths.get(file));
@@ -85,6 +85,11 @@ public class FileService {
         }
     }
 
+    /**
+     * This method writes the output information in the specified file
+     * @param output The output information
+     * @param file The output location of the file based in {@link Path}
+     */
     private void writeOutputFile(final String output, final Path file) {
         try {
             Files.write(file, output.getBytes());

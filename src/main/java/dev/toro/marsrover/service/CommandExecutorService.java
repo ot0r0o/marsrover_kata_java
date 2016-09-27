@@ -28,8 +28,8 @@ public class CommandExecutorService {
     /**
      * This method initializes a new Grid
      *
-     * @param col
-     * @param row
+     * @param col This is the X value of the Grid
+     * @param row This is the Y value of the Grid
      */
     public void initGrid(final int col, final int row) {
         log.info(String.format("Init new grid[%s,%s]", col, row));
@@ -39,7 +39,8 @@ public class CommandExecutorService {
     /**
      * This method initializes all the rovers. Deploy of the rovers is made before movements.
      *
-     * @param roversData
+     * @param roversData a list of {@link String} array which contains the data to be processed
+     *                   (Ex: {[x y d, LRM], [x y d, LRM]})
      */
     public void initRovers(final List<String[]> roversData) {
 
@@ -77,7 +78,7 @@ public class CommandExecutorService {
     /**
      * This method executes the rovers movements stored previously
      *
-     * @return
+     * @return The final position and direction of the rover/s
      */
     public String executeMovements() {
 
@@ -91,7 +92,7 @@ public class CommandExecutorService {
         for (Rover rover : rovers) {
             if(!rover.isError() && !rover.isMoved()){
                 rover.getCommandsToExecute().chars()
-                        .mapToObj(c -> String.valueOf((char) c)) // Get each char  and map in String
+                        .mapToObj(c -> String.valueOf((char) c)) // Get each char and map in String
                         .forEach(move -> // Make move
                                 moveRover(rover, MovementType.valueOf(move))
                         );
@@ -105,9 +106,9 @@ public class CommandExecutorService {
 
     /**
      * This method checks that all the rover data is correct.
-     * @param x
-     * @param y
-     * @param moves
+     * @param x value in the Grid
+     * @param y value in the Grid
+     * @param moves All the movements received
      * @return True when all data is correct. False otherwise
      */
     private boolean checkRoverData(final int x, final int y, final String moves) {
@@ -138,8 +139,8 @@ public class CommandExecutorService {
     /**
      * This method moves the rover to his new position
      *
-     * @param r
-     * @param move
+     * @param r {@link Rover}
+     * @param move {@link MovementType}
      */
     private void moveRover(final Rover r, final MovementType move) {
 
@@ -181,9 +182,9 @@ public class CommandExecutorService {
     /**
      * This method check if the new movement can be performed
      *
-     * @param x
-     * @param y
-     * @return
+     * @param x value in the Grid
+     * @param y value in the Grid
+     * @return True if movement can be performed. False otherwise
      */
     private boolean checkNewMovement(final int x, final int y) {
         return !grid.outSideGrid(x, y) && !grid.positionOccupied(x, y);
