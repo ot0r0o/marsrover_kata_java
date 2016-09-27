@@ -54,5 +54,6 @@ public class KeyboardService {
         String results = commandExecutorService.executeMovements();
 
         log.info("Rovers movements results: " + results);
+        System.out.println(results);
     }
 }
